@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../models/task_model.dart';
-import '../services/task_repository.dart';
-import '../widgets/task_list_widgets.dart';
-import 'add_task.dart';
+import '../../models/task_model.dart';
+import '../../services/task_repository.dart';
+import '../../components/task_list_widgets.dart';
+import '../add_task/add_task.dart';
 
 class CompleteTasksScreen extends StatefulWidget {
   const CompleteTasksScreen({super.key});

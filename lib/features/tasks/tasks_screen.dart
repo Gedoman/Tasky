@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
+import '../../models/task_model.dart';
+import '../../services/task_repository.dart';
+import '../../components/task_list_widgets.dart';
+import '../add_task/add_task.dart';
 
-import '../models/task_model.dart';
-import '../services/task_repository.dart';
-import '../widgets/task_list_widgets.dart';
-import 'add_task.dart';
-
-class HighPriorityScreen extends StatefulWidget {
-  const HighPriorityScreen({super.key});
+class TasksScreen extends StatefulWidget {
+  const TasksScreen({super.key});
 
   @override
-  State<HighPriorityScreen> createState() => _HighPriorityScreenState();
+  State<TasksScreen> createState() => _TasksScreenState();
 }
 
-class _HighPriorityScreenState extends State<HighPriorityScreen> {
-  List<TaskModel> highPriorityTasks = [];
+class _TasksScreenState extends State<TasksScreen> {
+  List<TaskModel> todoTasks = [];
   bool isLoading = false;
 
   @override
@@ -27,7 +26,7 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
     final all = await TaskRepository.loadAllTasks();
     if (!mounted) return;
     setState(() {
-      highPriorityTasks = all.where((t) => t.isHighPriority).toList();
+      todoTasks = all.where((t) => !t.isDone).toList();
       isLoading = false;
     });
   }
@@ -49,16 +48,16 @@ class _HighPriorityScreenState extends State<HighPriorityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("High Priority Tasks")),
+      appBar: AppBar(title: const Text("To Do Tasks")),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: isLoading
             ? const Center(child: CircularProgressIndicator())
             : TaskListWidgets(
-          tasks: highPriorityTasks,
+          tasks: todoTasks,
           emptyMessage: "No Task Found",
           onTab: (value, index) async {
-            final task = highPriorityTasks[index!];
+            final task = todoTasks[index!];
             await TaskRepository.toggleTaskDone(task.id, value ?? false);
             await _loadTask();
           },
