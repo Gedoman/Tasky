@@ -34,9 +34,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       username = PreferencesManager().getString(StorageKey.username) ?? "";
       quote =
-          PreferencesManager().getString("quote") ??
+          PreferencesManager().getString(StorageKey.quote) ??
           "One task at a time. One step closer.";
-      userImagePath = PreferencesManager().getString("user_image");
+      userImagePath = PreferencesManager().getString(StorageKey.userImage);
 
       isLoading = false;
     });
@@ -44,8 +44,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _logout() async {
     await PreferencesManager().remove(StorageKey.username);
-    await PreferencesManager().remove("quote");
-    await PreferencesManager().remove("tasks");
+    await PreferencesManager().remove(StorageKey.quote);
+    await PreferencesManager().remove(StorageKey.tasks);
     if (mounted) {
       Navigator.pushAndRemoveUntil(
         context,
@@ -244,5 +244,5 @@ void _showImageSourceDialog(BuildContext context , Function(XFile) selectedFile)
 void _saveImage(XFile file) async{
   final appDir = await getApplicationCacheDirectory();
   final newFile = await File(file.path).copy("${appDir.path}/${file.name}");
-  PreferencesManager().setString("user_image", newFile.path);
+  PreferencesManager().setString(StorageKey.userImage, newFile.path);
 }

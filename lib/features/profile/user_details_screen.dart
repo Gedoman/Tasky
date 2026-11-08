@@ -31,7 +31,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
 
     setState(() {
       usernameController.text = PreferencesManager().getString(StorageKey.username) ?? "";
-      quoteController.text =PreferencesManager().getString("quote") ?? "";
+      quoteController.text =PreferencesManager().getString(StorageKey.quote) ?? "";
       
     });
   }
@@ -40,7 +40,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     if(_key.currentState!.validate()) {
 
       await PreferencesManager().setString(StorageKey.username, usernameController.text);
-      await PreferencesManager().setString("quote", quoteController.text);
+      await PreferencesManager().setString(StorageKey.quote, quoteController.text);
 
       if (mounted) {
        Navigator.pop(context, true);
