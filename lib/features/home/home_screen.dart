@@ -184,9 +184,9 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       username = PreferencesManager().getString(StorageKey.username);
       quote =
-          PreferencesManager().getString("quote") ??
+          PreferencesManager().getString(StorageKey.quote) ??
           "One task at a time. One step closer.";
-      userImagePath = PreferencesManager().getString("user_image");
+      userImagePath = PreferencesManager().getString(StorageKey.userImage);
     });
   }
 

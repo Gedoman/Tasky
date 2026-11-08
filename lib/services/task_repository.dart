@@ -3,10 +3,11 @@ import 'dart:convert';
 
 import 'package:tasky/models/task_model.dart';
 
+import '../constants/storage_key.dart';
 import '../core/services/preferences_manager.dart';
 
 class TaskRepository {
-  static const String _tasksKey = "tasks";
+  static const String _tasksKey = StorageKey.tasks;
 
   // ---------- Read ----------
 
