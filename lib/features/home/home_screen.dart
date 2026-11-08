@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:tasky/models/task_model.dart';
 import 'package:tasky/features/add_task/add_task.dart';
 import 'package:tasky/features/home/components/high_priority_tasks_wigets.dart';
+import '../../constants/storage_key.dart';
 import '../../core/services/preferences_manager.dart';
 import '../../core/widgets/custom_svg_picture.dart';
 import '../../services/task_repository.dart';
@@ -181,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _loadUserData() {
     setState(() {
-      username = PreferencesManager().getString("username");
+      username = PreferencesManager().getString(StorageKey.username);
       quote =
           PreferencesManager().getString("quote") ??
           "One task at a time. One step closer.";

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tasky/core/widgets/custom_text_form_field.dart';
 import 'package:tasky/features/navigation/main_screen.dart';
+import '../../constants/storage_key.dart';
 import '../../core/services/preferences_manager.dart';
 import '../../core/widgets/custom_svg_picture.dart';
 
@@ -94,7 +95,7 @@ class WelcomeScreen extends StatelessWidget {
                               if (_key.currentState!.validate()) {
                                 // final pref = await SharedPreferences
                                 //     .getInstance();
-                                await PreferencesManager().setString("username", controller.value.text);
+                                await PreferencesManager().setString(StorageKey.username, controller.value.text);
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(

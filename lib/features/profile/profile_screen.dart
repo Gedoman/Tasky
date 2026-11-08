@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:tasky/core/theme/theme_controller.dart';
 import 'package:tasky/features/profile/user_details_screen.dart';
 import 'package:tasky/features/welcome/welcome_screen.dart';
+import '../../constants/storage_key.dart';
 import '../../core/services/preferences_manager.dart';
 import '../../core/widgets/custom_svg_picture.dart';
 
@@ -20,7 +21,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String username = "";
   String? quote;
   bool isLoading = true;
-  File? _selectedImage;
   String? userImagePath;
 
   @override
@@ -32,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _loadUserData() async {
     setState(() {
-      username = PreferencesManager().getString("username") ?? "";
+      username = PreferencesManager().getString(StorageKey.username) ?? "";
       quote =
           PreferencesManager().getString("quote") ??
           "One task at a time. One step closer.";
@@ -43,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void _logout() async {
-    await PreferencesManager().remove("username");
+    await PreferencesManager().remove(StorageKey.username);
     await PreferencesManager().remove("quote");
     await PreferencesManager().remove("tasks");
     if (mounted) {

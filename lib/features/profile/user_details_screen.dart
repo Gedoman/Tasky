@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:tasky/core/widgets/custom_text_form_field.dart';
 
+import '../../constants/storage_key.dart';
 import '../../core/services/preferences_manager.dart';
 
 class UserDetailsScreen extends StatefulWidget {
@@ -29,7 +30,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
 
 
     setState(() {
-      usernameController.text = PreferencesManager().getString("username") ?? "";
+      usernameController.text = PreferencesManager().getString(StorageKey.username) ?? "";
       quoteController.text =PreferencesManager().getString("quote") ?? "";
       
     });
@@ -37,9 +38,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
 
   void _saveUserData() async {
     if(_key.currentState!.validate()) {
-      //final pref = await SharedPreferences.getInstance();
 
-      await PreferencesManager().setString("username", usernameController.text);
+      await PreferencesManager().setString(StorageKey.username, usernameController.text);
       await PreferencesManager().setString("quote", quoteController.text);
 
       if (mounted) {
