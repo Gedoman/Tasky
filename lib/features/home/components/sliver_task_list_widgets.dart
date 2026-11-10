@@ -1,50 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tasky/features/home/home_controller.dart';
 import 'package:tasky/models/task_model.dart';
 import 'package:tasky/components/task_item_widget.dart';
 
 class SliverTaskListWidgets extends StatelessWidget {
   const SliverTaskListWidgets({
     super.key,
-    required this.tasks,
-    required this.onTab,
-    required this.onDelete,
-    required this.onEdit,
-    required this.emptyMessage,
   });
-
-  final List<TaskModel> tasks;
-  final Function(bool?, int?) onTab;
-  final Function(int?) onDelete;
-  final Function(TaskModel) onEdit;
-  final String emptyMessage;
 
   @override
   Widget build(BuildContext context) {
-    if (tasks.isEmpty) {
-      return SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24),
-          child: Center(
-            child: Text(
-              emptyMessage,
-              style: Theme.of(context).textTheme.labelLarge,
+    return Consumer<HomeController>(
+      builder: (BuildContext context, HomeController controller, Widget? child) {
+        final tasks = controller.tasks;
+        return tasks.isEmpty
+            ? SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24),
+            child: Center(
+              child: Text(
+                "No Data",
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
             ),
           ),
-        ),
-      );
-    }
-
-    return SliverList.separated(
-      itemCount: tasks.length,
-      itemBuilder: (context, index) {
-        return TaskItemWidget(
-          model: tasks[index],
-          onChanged: (bool? value) => onTab(value, index),
-          onDeleteSelect: (int id) => onDelete(id),
-          onEditSelect: (TaskModel task) => onEdit(task),
+        )
+            : SliverList.separated(
+          itemCount: tasks.length,
+          itemBuilder: (context, index) {
+            return TaskItemWidget(
+              model: tasks[index],
+              onChanged: (bool? value) => controller.doneTask(value, index),
+              onDeleteSelect: (int id) => controller.deleteTask(id),
+              onEditSelect: (TaskModel task) => controller.editTask(context, task),
+            );
+          },
+          separatorBuilder: (context, index) => const SizedBox(height: 6),
         );
       },
-      separatorBuilder: (context, index) => const SizedBox(height: 6),
     );
   }
 }
